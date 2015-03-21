@@ -2,13 +2,14 @@ package engine;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-public class GameEngine extends JFrame implements Runnable, Drawable, EngineSettings 
+public class GameEngine extends JFrame implements Runnable, Canvas, EngineSettings 
 {
+	private static final long serialVersionUID = 1243484763699841276L;
+	
 	private int fps = 60;
     private int xPos = 0;
     private int yPos = 0;
@@ -30,9 +31,7 @@ public class GameEngine extends JFrame implements Runnable, Drawable, EngineSett
     {
     	lastTime = 0;
     	this.game = game;
-    	game.gameStart((EngineSettings) this);
-    	
-    	addKeyListener((KeyListener) game);
+    	game.gameStart((EngineSettings) this, getRootPane().getInputMap(), getRootPane().getActionMap());
     	
     	setSize(width, height);
     	setLocation(xPos, yPos);
@@ -67,7 +66,7 @@ public class GameEngine extends JFrame implements Runnable, Drawable, EngineSett
 		if (lastTime != 0)
 		{
 			elapsedTime = currentTime - lastTime;
-			int sleep = (int) (1000000/fps - elapsedTime)/1000;
+			long sleep = Math.round(((double)1000000000.0/fps - elapsedTime)/1000000.0);
 			if (sleep > 0)
 			{
 				try {
@@ -81,13 +80,10 @@ public class GameEngine extends JFrame implements Runnable, Drawable, EngineSett
 		}
 		lastTime = currentTime;
 		
-		game.gameTick(elapsedTime);
+		game.gameTick(((double) elapsedTime)/1000000000.0);
 		gBuf.clearRect(0, 0, width, height);
-		game.gameDraw((Drawable) this);
-		//gBuf.setFont(Font.getFont("Arial"));
-		//gBuf.setColor(new Color(0, 0, 0));
-		//gBuf.drawString("fps: " + Long.toString(elapsedTime/1000), 20, 20);
-		if (debug) System.out.println("fps: " + Long.toString(elapsedTime/1000));
+		game.gameDraw((Canvas) this);
+		if (debug) System.out.println("fps: " + Long.toString(Math.round(1000000000.0/elapsedTime)));
 		gWin.drawImage(buf, 0, 0, this);		
 	}
 	
@@ -100,8 +96,37 @@ public class GameEngine extends JFrame implements Runnable, Drawable, EngineSett
 	*/
 
 	@Override
-	public void drawImage(Image image, int x, int y) {
+	public void drawImage(Image image, int x, int y)
+	{
 		gBuf.drawImage(image, x, y, this);
+	}
+
+	@Override
+	public void drawImage(Image image, double x, double y)
+	{
+		drawImage(image, (int) Math.round(x), (int) Math.round(y));
+	}
+
+	@Override
+	public Graphics2D getGraphics2D()
+	{
+		return gBuf;
+	}
+
+	@Override
+	public void Transform(Movable relative)
+	{
+		gBuf.translate(relative.getXPos(), relative.getYPos());
+		gBuf.scale(relative.getXScale(), relative.getYScale());
+		gBuf.rotate(relative.getRotation());
+	}
+
+	@Override
+	public void RevertTransform(Movable relative)
+	{
+		gBuf.rotate(-1*relative.getRotation());
+		gBuf.scale(1/relative.getXScale(), 1/relative.getYScale());
+		gBuf.translate(-1*relative.getXPos(), -1*relative.getYPos());
 	}
 
 	@Override
