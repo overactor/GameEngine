@@ -22,6 +22,9 @@ public class Parcours extends GameObject
 		String workingDir = new File("").getAbsolutePath();
     	parcours = Game.loadImage(workingDir + parcoursPfad);
     	
+    	//setXPos(200);
+    	//setYPos(400);
+    	
     	car = new Car(inputMap, actionMap);
 	}
 
@@ -35,7 +38,8 @@ public class Parcours extends GameObject
 	@Override
 	public void tick(double elapsedTime)
 	{
-		car.tick(elapsedTime);
+		car.tick(elapsedTime);		
+		//setRotation(getRotation() + 0.5*elapsedTime);
 	}
 
 }

@@ -79,19 +79,36 @@ public abstract class GameObject implements Drawable, Movable
 		return xOrigin;
 	}
 	
+	@Override
 	public void setXOrigin(double xOrigin)
 	{
 		this.xOrigin = xOrigin;
 	}
 	
+	@Override
 	public double getYOrigin()
 	{
 		return yOrigin;
 	}
 	
+	@Override
 	public void setYOrigin(double yOrigin)
 	{
 		this.yOrigin = yOrigin;
+	}
+	
+	@Override
+	public void moveForward(double step)
+	{
+		x -= step*Math.cos(rotation - Math.PI/2);
+		y -= step*Math.sin(rotation - Math.PI/2);
+	}
+	
+	@Override
+	public void moveRight(double step)
+	{
+		x -= step*Math.cos(rotation);
+		y -= step*Math.sin(rotation);
 	}
 	
 	final public void DrawRelative(Canvas canvas)

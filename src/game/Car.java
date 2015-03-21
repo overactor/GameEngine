@@ -18,8 +18,9 @@ public class Car extends GameObject
 	private String autoPfad = "\\res\\AnhaltendesAuto.gif";
     private Image auto;
 
-    private double xSpeed = 0;
+    //private double xSpeed = 0;
     private double ySpeed = 0;
+    private double rotationSpeed = 0;
     
     public Car(InputMap inputMap, ActionMap actionMap)
     {
@@ -27,7 +28,7 @@ public class Car extends GameObject
     	auto = Game.loadImage(workingDir + autoPfad);
 
     	setXOrigin(50);
-    	setXOrigin(65);
+    	setYOrigin(65);
     	setXPos(200);
     	setYPos(400);
 
@@ -59,8 +60,17 @@ public class Car extends GameObject
 	@Override
 	public void tick(double elapsedTime) 
 	{
-		setXPos(getXPos() + xSpeed*elapsedTime);
-		setYPos(getYPos() + ySpeed*elapsedTime);
+		//setXPos(getXPos() + xSpeed*elapsedTime);
+		//setYPos(getYPos() + ySpeed*elapsedTime);
+		moveForward(ySpeed*elapsedTime);
+		if (ySpeed < 0)
+		{
+			setRotation(getRotation() + rotationSpeed*elapsedTime);
+		}
+		else if (ySpeed > 0)
+		{
+			setRotation(getRotation() - rotationSpeed*elapsedTime);
+		}
 	}
     
     private AbstractAction speedUp = new AbstractAction() 
@@ -95,7 +105,8 @@ public class Car extends GameObject
 		public void actionPerformed(ActionEvent arg0)
 		{
 			setEnabled(false);
-			xSpeed -= 90;			
+			//xSpeed -= 90;
+			rotationSpeed -= 0.9;
 		}
 	};
     
@@ -107,7 +118,8 @@ public class Car extends GameObject
 		public void actionPerformed(ActionEvent arg0)
 		{
 			setEnabled(false);
-			xSpeed += 90;			
+			//xSpeed += 90;
+			rotationSpeed += 0.9;
 		}
 	};
     
@@ -130,7 +142,6 @@ public class Car extends GameObject
 		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
-
 			speedDown.setEnabled(true);
 			ySpeed -= 160;			
 		}
@@ -143,9 +154,9 @@ public class Car extends GameObject
 		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
-
 			speedLeft.setEnabled(true);
-			xSpeed += 90;			
+			//xSpeed += 90;
+			rotationSpeed += 0.9;
 		}
 	};
     
@@ -157,7 +168,8 @@ public class Car extends GameObject
 		public void actionPerformed(ActionEvent arg0)
 		{
 			speedRight.setEnabled(true);
-			xSpeed -= 90;			
+			//xSpeed -= 90;
+			rotationSpeed -= 0.9;
 		}
 	};
 }

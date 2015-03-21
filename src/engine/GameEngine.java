@@ -117,15 +117,15 @@ public class GameEngine extends JFrame implements Runnable, Canvas, EngineSettin
 	public void Transform(Movable relative)
 	{
 		gBuf.translate(relative.getXPos(), relative.getYPos());
-		gBuf.scale(relative.getXScale(), relative.getYScale());
 		gBuf.rotate(relative.getRotation());
+		gBuf.scale(relative.getXScale(), relative.getYScale());
 	}
 
 	@Override
 	public void RevertTransform(Movable relative)
 	{
-		gBuf.rotate(-1*relative.getRotation());
 		gBuf.scale(1/relative.getXScale(), 1/relative.getYScale());
+		gBuf.rotate(-1*relative.getRotation());
 		gBuf.translate(-1*relative.getXPos(), -1*relative.getYPos());
 	}
 

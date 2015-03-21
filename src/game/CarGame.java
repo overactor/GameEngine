@@ -13,8 +13,7 @@ public class CarGame extends Game
 	
     @Override
     public void gameStart(EngineSettings settings, InputMap inputMap, ActionMap actionMap) 
-    {
-    	
+    {    	
     	parcours = new Parcours(inputMap, actionMap);
     	
     	settings.setFps(60);
@@ -22,10 +21,8 @@ public class CarGame extends Game
     	settings.setWidth(400);
     	settings.setXPos(30);
     	settings.setYPos(30);
-    	settings.setDebug(false);
-    	settings.setCaption("Vrooom!!!");
-    	
-    	
+    	settings.setDebug(true);
+    	settings.setCaption("Vrooom!!!");    	
     }
 
     @Override

@@ -16,4 +16,6 @@ public interface Movable
 	public void setXOrigin(double xOrigin);
 	public double getYOrigin();
 	public void setYOrigin(double yOrigin);
+	public void moveForward(double step);
+	public void moveRight(double step);
 }
