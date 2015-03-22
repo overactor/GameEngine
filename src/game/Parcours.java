@@ -38,7 +38,8 @@ public class Parcours extends GameObject
 	@Override
 	public void tick(double elapsedTime)
 	{
-		car.tick(elapsedTime);		
+		car.tick(elapsedTime);
+		car.revertToAbsolute(this);
 		//setRotation(getRotation() + 0.5*elapsedTime);
 	}
 

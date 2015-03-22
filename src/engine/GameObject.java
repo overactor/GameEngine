@@ -111,6 +111,47 @@ public abstract class GameObject implements Drawable, Movable
 		y -= step*Math.sin(rotation);
 	}
 	
+	
+	@Override
+	public void setRelativeTo(Movable parent)
+	{
+		xScale /= parent.getXScale();
+		yScale /= parent.getYScale();		
+		
+		x -= parent.getXPos();
+		y -= parent.getYPos();
+
+		double dist = Math.sqrt(x*x + y*y);
+		double r = Math.acos(y/dist);
+		x = dist*Math.sin(r - parent.getRotation() );
+		y = dist*Math.cos(r - parent.getRotation());
+		
+		x /= parent.getXScale();
+		y /= parent.getYScale();
+		
+		rotation -= parent.getRotation();
+	}
+	
+	@Override
+	public void revertToAbsolute(Movable parent)
+	{
+		xScale *= parent.getXScale();
+		yScale *= parent.getYScale();
+		
+		x *= parent.getXScale();
+		y *= parent.getYScale();
+		
+		double dist = Math.sqrt(x*x + y*y);
+		double r = Math.acos(y/dist);
+		x = dist*Math.sin(r + parent.getRotation());
+		y = dist*Math.cos(r + parent.getRotation());
+		
+		x += parent.getXPos();
+		y += parent.getYPos();
+
+		rotation += parent.getRotation();
+	}
+	
 	final public void DrawRelative(Canvas canvas)
 	{
 		canvas.Transform((Movable) this);		

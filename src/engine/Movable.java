@@ -18,4 +18,6 @@ public interface Movable
 	public void setYOrigin(double yOrigin);
 	public void moveForward(double step);
 	public void moveRight(double step);
+	public void setRelativeTo(Movable parent);
+	public void revertToAbsolute(Movable parent);
 }
